@@ -2,20 +2,14 @@ import {chooseImage} from './index'
 import request from './request';
 export function add(params) {
   return new Promise((resolve, reject) => {
-    uniCloud.callFunction({
-      name: 'add',
-      data:params
-      //  {
-      //   name: 'DCloud',
-      //   subType: 'uniCloud',
-      //   createTime: Date.now(),
-      //   age:11
-      // }
+    request({
+      url: '/add',
+      data: params,
+	  method: 'put'
     }).then((res) => {
       resolve(res)
       console.log(res)
     }).catch((err) => {
-  
       console.error(err)
     })
   })
@@ -77,12 +71,34 @@ export function get() {
     title: '加载中...'
   })
   return new Promise((resolve, reject) => {
-    uniCloud.callFunction({
-      name: 'get'
+    request({
+      url: '/get'
     }).then((res) => {
       uni.hideLoading()
       console.log(res)
-      resolve(res.result)
+      resolve(res)
+    }).catch((err) => {
+      uni.hideLoading()
+      uni.showModal({
+        content: `查询失败`,
+        showCancel: false
+      })
+      console.error(err)
+    })
+  })
+}
+
+export function one(id) {
+  uni.showLoading({
+    title: '加载中...'
+  })
+  return new Promise((resolve, reject) => {
+    request({
+      url: '/one/'+id
+    }).then((res) => {
+      uni.hideLoading()
+      console.log(res)
+      resolve(res)
     }).catch((err) => {
       uni.hideLoading()
       uni.showModal({
@@ -189,29 +205,29 @@ export async function chooseImgUpload() {
 export async function upload(path) {
   return new Promise((resolve, reject) => {
     new Promise((resolve, reject) => {
-      let ext
-      // #ifdef H5
-      ext = path.name.split('.').pop()
-      // #endif
-      // #ifndef H5
-      // 字节跳动小程序ios端选择文件会带query
-      ext = path.split('?')[0].split('.').pop()
-      // #endif
-      const options = {
-        filePath: path,
-        cloudPath: Date.now() + '.' + ext
-      }
-      resolve(options)
+		let base64;
+      uni.request({
+      	url: path,
+      	method:'GET',
+      	responseType:'arraybuffer',
+      	success(res) {
+      		base64 = wx.arrayBufferToBase64(res.data);
+      		base64 = 'data:image/jpeg;base64,'+base64;
+      		const options = {
+      			filePath: base64,
+      		}
+      		resolve(options)
+      	}
+      })
     }).then((options) => {
       // uni.showLoading({
       //   title: '文件上传中...'
       // })
-      return uniCloud.uploadFile({
-        ...options,
-        onUploadProgress(e) {
-          // console.log(e)
-        }
-      })
+      return request({
+      				url: '/upload',
+      				data: options,
+      				method:'post'
+      			});
     }).then(res => {
       // uni.hideLoading()
       // uni.showToast({
