@@ -1,9 +1,9 @@
 {
-  "navigationBarTitleText": "",
+  "navigationBarTitleText": "海报设计",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "hch-menu": "/components/hch-menu/hch-menu",
     "hch-dialog": "/components/hch-dialog/hch-dialog",
-    "hch-font": "/components/hch-font/hch-font"
+    "hch-font": "/components/hch-font/hch-font",
+    "hch-menu": "/components/hch-menu/hch-menu"
   }
 }
