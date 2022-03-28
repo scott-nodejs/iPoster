@@ -10,7 +10,7 @@
 	<view>
 		<view class="head-top">
 			<view class="text-button" @click="handleCanvasCancel">清空重做</view>
-			<view class="text-button">下载保存</view>
+			<view class="text-button" @click="handleMenu('save')">下载保存</view>
 		</view>
 		<view class="content">
 			<img class="bg-img" v-if="dragBg.url" :src="dragBg.url" alt="" srcset="">
