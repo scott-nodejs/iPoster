@@ -89,7 +89,7 @@
 							<view class="ft12 mt8">添加素材</view>
 						</view>
 						
-						<view class="form-footer-item text-center ">
+						<view class="form-footer-item text-center " @click="showSC">
 							<image class="image-item" src="../../static/hch-menu/sc.png"></image>
 							<view class="ft12 mt8">素材库</view>
 						</view>
@@ -117,6 +117,7 @@
 			</view>
 		</hch-dialog>
 		<hch-font :is-show="fontShow" :fontData='font' @cancel="fontShow = false" @confirm="handleFontConfirm"/>
+		<dialog-qrcode v-if="showQrcode" @closed="showQrcode = false"></dialog-qrcode>
 	</view>
 </template>
 
@@ -152,8 +153,8 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 					left:0,
 					radius:0,
 				},
-				dragList:[
-				]
+				dragList:[],
+				showQrcode:false
 
 			}
 		},
@@ -609,6 +610,10 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 				this.dragList = this.tempList[i].dragList
 				this.dragBg = this.tempList[i].dragBg
 				this.showTempDiolag = false
+			},
+			
+			showSC(){
+				this.showQrcode = true
 			}
 		}
 	}

@@ -44,6 +44,13 @@
 	      "selectedIconPath": "static/tab-icons/my-active.png"
 	    }
 	  ]
+	},
+	"easycom": {
+	  "autoscan": true,
+	  "custom": {
+			"dialog-(.*)":"@/components/dialog/$1.vue",
+			"sub-(.*)":"@/components/sub/$1.vue"
+	  }
 	}
 
 }

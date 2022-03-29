@@ -1,5 +1,5 @@
-// const BASE_URL = 'https://yima.hazer.top/api';
-const BASE_URL = 'http://localhost:9080/oneCode/iapi';
+const BASE_URL = 'https://yima.hazer.top/iapi';
+// const BASE_URL = 'http://localhost:9080/oneCode/api';
 import store from '../store';
 function request({ url, data, method }) {
   return new Promise((resolve, reject) => {
