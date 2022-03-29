@@ -11,7 +11,58 @@
 						<sub-tab :tabs="tabs" :selectIndex="selectIndex" @change="changeIndex"></sub-tab>
 				</view>
 				<view v-if="selectIndex == 0" class="pd16_15">
-					<view class="ft14 cl-light  lh20 mb16">星级服务，温馨舒适，我们拒绝暴利，保品质、不推销、不办卡，，为每一位顾客量身定制适合自己的发型，满足每位顾客不同的要求，给您专业的设计与建议，为您的美不停奋斗！</view>
+					<view class="flex wrap mt24">
+						<view class="col3">
+							<view class="text-center">
+								<image class="miniapp-icon" src="../../static/image/tomato.png"></image>
+							</view>
+							<view class="text-center ft12 cl-info2 mt8">
+								西红柿
+							</view>
+						</view>
+						<view class="col3">
+							<view class="text-center">
+								<image class="miniapp-icon" src="../../static/image/tlms.png"></image>
+							</view>
+							<view class="text-center ft12 cl-info2 mt8">
+								提拉米苏
+							</view>
+						</view>
+						<view class="col3">
+							<view class="text-center">
+								<image class="miniapp-icon" src="../../static/image/sn.png"></image>
+							</view>
+							<view class="text-center ft12 cl-info2 mt8">
+								酸奶
+							</view>
+						</view>
+					</view>
+					<view class="flex wrap mt24">
+						<view class="col3">
+							<view class="text-center">
+								<image class="miniapp-icon" src="../../static/image/smz.png"></image>
+							</view>
+							<view class="text-center ft12 cl-info2 mt8">
+								三明治
+							</view>
+						</view>
+						<view class="col3">
+							<view class="text-center">
+								<image class="miniapp-icon" src="../../static/image/gt.png"></image>
+							</view>
+							<view class="text-center ft12 cl-info2 mt8">
+								罐头
+							</view>
+						</view>
+						<view class="col3">
+							<view class="text-center">
+								<image class="miniapp-icon" src="../../static/image/pf.png"></image>
+							</view>
+							<view class="text-center ft12 cl-info2 mt8">
+								泡芙
+							</view>
+						</view>
+					</view>
 				</view>
 				<view v-if="selectIndex == 1" class="pd16_15">
 					<view class="flex">
@@ -101,5 +152,10 @@
 		position: absolute;
 		right: 40rpx;
 		top: 40rpx;
+	}
+	.miniapp-icon{
+		width: 90rpx;
+		height: 90rpx;
+		border-radius: 40rpx;
 	}
 </style>
