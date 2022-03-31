@@ -11,6 +11,7 @@
 						<sub-tab :tabs="tabs" :selectIndex="selectIndex" @change="changeIndex"></sub-tab>
 				</view>
 				<view v-if="selectIndex == 0" class="pd16_15">
+
 				<view class="flex wrap mt24">
 						<view class="col3" @click="selectImg(item.image)" v-for="(item,index) in images">
 							<view class="text-center">
@@ -135,8 +136,9 @@
 		top: 40rpx;
 	}
 	.miniapp-icon{
-			width: 90rpx;
-			height: 90rpx;
-			border-radius: 40rpx;
-		}
+		width: 90rpx;
+		height: 90rpx;
+		border-radius: 40rpx;
+	}
+
 </style>
