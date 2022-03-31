@@ -11,7 +11,16 @@
 						<sub-tab :tabs="tabs" :selectIndex="selectIndex" @change="changeIndex"></sub-tab>
 				</view>
 				<view v-if="selectIndex == 0" class="pd16_15">
-					<view class="ft14 cl-light  lh20 mb16">星级服务，温馨舒适，我们拒绝暴利，保品质、不推销、不办卡，，为每一位顾客量身定制适合自己的发型，满足每位顾客不同的要求，给您专业的设计与建议，为您的美不停奋斗！</view>
+				<view class="flex wrap mt24">
+						<view class="col3" @click="selectImg(item.image)" v-for="(item,index) in images">
+							<view class="text-center">
+								<image class="miniapp-icon" :src="item.image"></image>
+							</view>
+							<view class="text-center ft12 cl-info2 mt8">
+								{{item.name}}
+							</view>
+						</view>
+					</view>
 				</view>
 				<view v-if="selectIndex == 1" class="pd16_15">
 					<view class="flex">
@@ -43,6 +52,26 @@
 				qrcodeImg:'',
 				selectIndex:0,
 				tabs:['图片库','文本库'],
+				images:[
+					{name: '西红柿',
+					 image: '../../static/image/tomato.png'
+					},
+					{name: '提拉米苏',
+					 image: '../../static/image/tlms.png'
+					},
+					{name: '酸奶',
+					 image: '../../static/image/sn.png'
+					},
+					{name: '三明治',
+					 image: '../../static/image/smz.png'
+					},
+					{name: '罐头',
+					 image: '../../static/image/gt.png'
+					},
+					{name: '泡芙',
+					 image: '../../static/image/pf.png'
+					}
+				]
 			}
 		},
 		created(){
@@ -57,6 +86,9 @@
 			},
 			changeIndex(index){
 				this.selectIndex = index;
+			},
+			selectImg(img) {
+			  this.$emit("handle", img)
 			}
 		}
 	}
@@ -102,4 +134,9 @@
 		right: 40rpx;
 		top: 40rpx;
 	}
+	.miniapp-icon{
+			width: 90rpx;
+			height: 90rpx;
+			border-radius: 40rpx;
+		}
 </style>

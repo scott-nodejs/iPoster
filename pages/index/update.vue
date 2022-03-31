@@ -116,8 +116,8 @@
 				<img class="template-item" @click="chooseTemp(i)" v-for="(item,i) in tempList" :key="i" :src="item.dragBg.url" :data-id="item._id" alt="" srcset="">
 			</view>
 		</hch-dialog>
-		<hch-font :is-show="fontShow" :fontData='font' @cancel="fontShow = false" @confirm="handleFontConfirm"/>
-		<dialog-qrcode v-if="showQrcode" @closed="showQrcode = false"></dialog-qrcode>
+		<hch-font v-if="fontShow" :is-show="fontShow" :fontData='font' @cancel="fontShow = false" @confirm="handleFontConfirm"/>
+		<dialog-qrcode v-if="showQrcode" @closed="showQrcode = false" @handle="ImageChoose"></dialog-qrcode>
 	</view>
 </template>
 
@@ -504,13 +504,14 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 				this.currentIndex = ''
 				switch (type) {
 					case 'bg':
-						this.showDiolag = true
+					    this.fontShow = false;
+						this.showDiolag = true;
 						break;
 					case 'pic':
 						this.handleChoose(type)
 						break;
 					case 'text':
-						this.fontShow = true
+						this.fontShow = true;
 						this.font={}
 						break;
 					case 'save':
@@ -553,6 +554,25 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 						break;
 				}
 				this.showDiolag = false
+			},
+			ImageChoose(img){
+				let item = {
+						id:this.dragList.length,
+						type:'img',
+						url: img,
+						width:100,
+						height:100,
+						active:false,
+						top:40,
+						left:40,
+						radius:0,
+						rotate:0,
+					}
+				if(this.currentIndex !==''){
+					this.dragList.splice(this.currentIndex,1)
+				}
+				this.dragList.push(item);
+				this.showQrcode = false;
 			},
 			/**
 			* @description: 确定文本字体
@@ -613,6 +633,7 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 			},
 			
 			showSC(){
+				this.fontShow = false;
 				this.showQrcode = true
 			}
 		}
