@@ -69,67 +69,15 @@
         let data = this.posterData
         let system = this.system
         let posterBg = {
-          url: data.poster.url,
-          r: data.poster.r * system.scale,
-          w: data.poster.w * system.scale,
-          h: data.poster.h * system.scale,
-          x: (system.w - data.poster.w * system.scale) / 2,
-          y: (system.h - data.poster.h * system.scale) / 2,
-          p: data.poster.p * system.scale
+          url: data.dragBg.url,
+          r: 10 * 0.8,
+          w: data.dragBg.width * 0.8,
+          h: data.dragBg.height * 0.8,
+          x: 30,
+          y: 50,
+          p: 20 * system.scale
         }
         return posterBg
-      },
-      /**
-       * @description: 计算海报头部主图
-       * @param {*}
-       * @return {*}
-       * @author: hch
-       */
-      mainImg() {
-        let data = this.posterData
-        let system = this.system
-        let posterMain = {
-          url: data.mainImg.url,
-          r: data.mainImg.r * system.scale,
-          w: data.mainImg.w * system.scale,
-          h: data.mainImg.h * system.scale,
-          x: (system.w - data.mainImg.w * system.scale) / 2,
-          y: this.poster.y + data.poster.p * system.scale
-        }
-        return posterMain
-      },
-      /**
-       * @description: 计算海报标题
-       * @param {*}
-       * @return {*}
-       * @author: hch
-       */
-      title() {
-        let data = this.posterData
-        let system = this.system
-        let posterTitle = data.title
-        posterTitle.x = this.mainImg.x
-        posterTitle.y = this.mainImg.y + this.mainImg.h + data.title.mt * system.scale
-        return posterTitle
-      },
-      /**
-       * @description: 计算小程序码
-       * @param {*}
-       * @return {*}
-       * @author: hch
-       */
-      codeImg() {
-        let data = this.posterData
-        let system = this.system
-        let posterCode = {
-          url: data.codeImg.url,
-          r: data.codeImg.r * system.scale,
-          w: data.codeImg.w * system.scale,
-          h: data.codeImg.h * system.scale,
-          x: (system.w - data.codeImg.w * system.scale) / 2,
-          y: data.codeImg.mt * system.scale //y需要加上绘图后文本的y
-        }
-        return posterCode
       }
     },
     created() {
@@ -161,53 +109,30 @@
         ctx.draw() //清空之前的海报
         // 根据设备屏幕大小和距离屏幕上下左右距离，及圆角绘制背景
         let poster = this.poster
-        let mainImg = this.mainImg
-        let codeImg = this.codeImg
-        let title = this.title
+        // let mainImg = this.mainImg
+        // let codeImg = this.codeImg
+        // let title = this.title
         await drawSquarePic(ctx, poster.x, poster.y, poster.w, poster.h, poster.r, poster.url)
-        await drawSquarePic(ctx, mainImg.x, mainImg.y, mainImg.w, mainImg.h, mainImg.r, mainImg.url)
-        // 绘制标题 textY 绘制文本的y位置
-        console.log('creatPoster -> title.x', title.x)
-        let textY = drawTextReturnH(
-          ctx,
-          title.text,
-          title.x,
-          title.y,
-          mainImg.w,
-          title.fontSize,
-          title.color,
-          title.lineHeight
-        )
-        // 绘制小程序码
-        await drawSquarePic(
-          ctx,
-          codeImg.x,
-          codeImg.y + textY,
-          codeImg.w,
-          codeImg.h,
-          codeImg.r,
-          codeImg.url
-        )
         // 小程序的名称
         // 长按/扫描识别查看商品
         let y = 0
         this.posterData.tips.forEach((element, i) => {
-          if (i == 0) {
-            y = codeImg.y + textY + element.mt + codeImg.h
-          } else {
-            y += element.mt
-          }
-          y = drawTextReturnH(
-            ctx,
-            element.text,
-            title.x,
-            y,
-            mainImg.w,
-            element.fontSize,
-            element.color,
-            element.lineHeight,
-            element.align
-          )
+		  if(element.type == 'text'){
+			  y = drawTextReturnH(
+			    ctx,
+			    element.text,
+			    element.top+30,
+			    element.left+40,
+			    element.width,
+			    element.fontSize,
+			    element.color,
+			    0,
+			    element.textAlign
+			  )
+		  }else{
+			  drawSquarePic(ctx, element.top + 40, element.left+30, element.width, element.height, element.radius, element.url)
+		  }
+          
         })
         uni.hideLoading()
       },
@@ -229,10 +154,10 @@
           {
             x: this.poster.x,
             y: this.poster.y,
-            width: this.poster.w, // 画布的宽
-            height: this.poster.h, // 画布的高
-            destWidth: this.poster.w * 5,
-            destHeight: this.poster.h * 5,
+            width: 200, // 画布的宽
+            height: 300, // 画布的高
+            destWidth: 200 * 5,
+            destHeight: 300 * 5,
             canvasId: 'myCanvas',
             success(res) {
               //保存图片至相册
@@ -290,8 +215,8 @@
           {
             x: this.poster.x,
             y: this.poster.y,
-            width: this.poster.w, // 画布的宽
-            height: this.poster.h, // 画布的高
+            width: 200, // 画布的宽
+            height: 200, // 画布的高
             destWidth: this.poster.w * 5,
             destHeight: this.poster.h * 5,
             success(res) {
@@ -362,14 +287,14 @@
       right: 0;
       bottom: 0;
       left: 0;
-      z-index: 9;
+      z-index: 11;
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
     }
 
     .canvas {
-      z-index: 10;
+      z-index: 12;
     }
 
     .button-wrapper {

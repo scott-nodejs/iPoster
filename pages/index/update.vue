@@ -164,56 +164,8 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 				dragList:[],
 				showQrcode:false,
                 posterData: {
-                  poster: {
-                    //根据屏幕大小自动生成海报背景大小
-                    url: 'http://img.hazer.top/iposter/h5-yima-1648280780210.jpeg', //图片地址
-                    r: 10, //圆角半径
-                    w: 300, //海报宽度
-                    h: 480, //海报高度
-                    p: 20 //海报内边距padding
-                  },
-                  mainImg: {
-                    //海报主商品图
-                    url: 'http://img.hazer.top/iposter/h5-yima-1648280797280.jpeg', //图片地址
-                    r: 10, //圆角半径
-                    w: 250, //宽度
-                    h: 200 //高度
-                  },
-                  title: {
-                    //商品标题
-                    text: '今日上新水果，牛奶草莓，颗粒饱满，每盒 200g', //文本
-                    fontSize: 16, //字体大小
-                    color: '#000', //颜色
-                    lineHeight: 25, //行高
-                    mt: 20 //margin-top
-                  },
-                  codeImg: {
-                    //小程序码
-                    url: 'https://huangchunhongzz.gitee.io/imgs/poster/code.png', //图片地址
-                    w: 100, //宽度
-                    h: 100, //高度
-                    mt: 20, //margin-top
-                    r: 50 //圆角半径
-                  },
-                  tips: [
-                    //提示信息
-                    {
-                      text: '记忆之王', //文本
-                      fontSize: 14, //字体大小
-                      color: '#2f1709', //字体颜色
-                      align: 'center', //对齐方式
-                      lineHeight: 25, //行高
-                      mt: 20 //margin-top
-                    },
-                    {
-                      text: '长按/扫描识别查看商品', //文本
-                      fontSize: 12, //字体大小
-                      color: '#2f1709', //字体颜色
-                      align: 'center', //对齐方式
-                      lineHeight: 25, //行高
-                      mt: 20 //margin-top
-                    }
-                  ]
+                  dragBg: {},
+                  tips: []
                 }
 			}
 		},
@@ -492,6 +444,8 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 				
 				this.dragList = data.dragList
 				this.dragBg = data.dragBg
+				this.posterData.dragBg = data.dragBg;
+				this.posterData.tips = data.dragList;
 			},
 			/**
 			* @description: 点击菜单
