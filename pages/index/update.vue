@@ -10,7 +10,7 @@
 	<view>
 		<view class="head-top">
 			<view class="text-button" @click="handleCanvasCancel">清空重做</view>
-			<view class="text-button" @click="handleMenu('save')">下载保存</view>
+			<view class="text-button" @tap="handleShowPoster">下载保存</view>
 		</view>
 		<view class="content">
 			<img class="bg-img" v-if="dragBg.url" :src="dragBg.url" alt="" srcset="">
@@ -118,6 +118,12 @@
 		</hch-dialog>
 		<hch-font v-if="fontShow" :is-show="fontShow" :fontData='font' @cancel="fontShow = false" @confirm="handleFontConfirm"/>
 		<dialog-qrcode v-if="showQrcode" @closed="showQrcode = false" @handle="ImageChoose" @txtHandle="txtHandle"></dialog-qrcode>
+		<hch-poster
+		  ref="hchPoster"
+		  @cancel="handleCancel"
+		  :posterData.sync="posterData"
+		  @previewImage="previewImage"
+		/>
 	</view>
 </template>
 
@@ -125,13 +131,15 @@
 import HchMenu from '../../components/hch-menu/hch-menu.vue'
 import HchDialog from '../../components/hch-dialog/hch-dialog.vue'
 import HchFont from '../../components/hch-font/hch-font.vue'
+import HchPoster from '../../components/hch-poster/hch-poster.vue'
 import {upload,chooseImgUpload,add,get,one} from '../../utils/apiFunc'
 import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 	export default {
 		components: {
 			HchMenu,
 			HchDialog,
-			HchFont
+			HchFont,
+			HchPoster
 		},
 		data() {
 			return {
@@ -154,20 +162,74 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 					radius:0,
 				},
 				dragList:[],
-				showQrcode:false
-
+				showQrcode:false,
+                posterData: {
+                  poster: {
+                    //根据屏幕大小自动生成海报背景大小
+                    url: 'http://img.hazer.top/iposter/h5-yima-1648280780210.jpeg', //图片地址
+                    r: 10, //圆角半径
+                    w: 300, //海报宽度
+                    h: 480, //海报高度
+                    p: 20 //海报内边距padding
+                  },
+                  mainImg: {
+                    //海报主商品图
+                    url: 'http://img.hazer.top/iposter/h5-yima-1648280797280.jpeg', //图片地址
+                    r: 10, //圆角半径
+                    w: 250, //宽度
+                    h: 200 //高度
+                  },
+                  title: {
+                    //商品标题
+                    text: '今日上新水果，牛奶草莓，颗粒饱满，每盒 200g', //文本
+                    fontSize: 16, //字体大小
+                    color: '#000', //颜色
+                    lineHeight: 25, //行高
+                    mt: 20 //margin-top
+                  },
+                  codeImg: {
+                    //小程序码
+                    url: 'https://huangchunhongzz.gitee.io/imgs/poster/code.png', //图片地址
+                    w: 100, //宽度
+                    h: 100, //高度
+                    mt: 20, //margin-top
+                    r: 50 //圆角半径
+                  },
+                  tips: [
+                    //提示信息
+                    {
+                      text: '记忆之王', //文本
+                      fontSize: 14, //字体大小
+                      color: '#2f1709', //字体颜色
+                      align: 'center', //对齐方式
+                      lineHeight: 25, //行高
+                      mt: 20 //margin-top
+                    },
+                    {
+                      text: '长按/扫描识别查看商品', //文本
+                      fontSize: 12, //字体大小
+                      color: '#2f1709', //字体颜色
+                      align: 'center', //对齐方式
+                      lineHeight: 25, //行高
+                      mt: 20 //margin-top
+                    }
+                  ]
+                }
 			}
 		},
 		computed: {
 		},
 		onLoad(options){
-		this.system = getSystem()
-		let index = options.index;
-		this.getOne(index)
+			this.system = getSystem()
+			let index = options.index;
+			this.getOne(index)
 		},
 		onReady(){
 		},
 		methods: {
+			handleShowPoster() {
+			  this.$refs.hchPoster.posterShow()
+			},
 			/**
 			* @description: 拖拽对象开始接触移动前
 			* @param {type} 
@@ -330,9 +392,9 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 						await drawTextReturnH(ctx,element.text,element.left,element.top,element.width,element.fontSize,element.color,element.textAlign,element.fontWeight)
 					}
 				}
-				setTimeout(()=>{
-					this.handleSaveCanvasImage()
-				},500)
+				// setTimeout(()=>{
+				// 	this.handleSaveCanvasImage()
+				// },500)
 				wx.hideLoading()
 			},
 			
@@ -348,7 +410,6 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
       })
       let _this = this
       // 把画布转化成临时文件
-      // #ifndef MP-ALIPAY
       // 支付宝小程序外，其他都是用这个方法 canvasToTempFilePath
         uni.canvasToTempFilePath({
           x: 0,
@@ -358,19 +419,17 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 		  destWidth: this.system.w * 5,
 		  destHeight: this.system.h * 5,
 		  canvasId: "myCanvas",
-          canvasId: "myCanvas",
           success:async function(res) {
 			// 上传海报
-			let {fileID} = await upload(res.tempFilePath)
+			// let {fileID} = await upload(res.tempFilePath)
 			// 存储数据
-			await add({
-				createTime: Date.now(),
-				dragBg:_this.dragBg,
-				dragList:_this.dragList,
-				posterImgUrl:fileID
-			})			
+			// await add({
+			// 	createTime: Date.now(),
+			// 	dragBg:_this.dragBg,
+			// 	dragList:_this.dragList,
+			// 	posterImgUrl:fileID
+			// })			
             //保存图片至相册
-            // #ifndef H5
             // 除了h5以外的其他端
             uni.saveImageToPhotosAlbum({
               filePath: res.tempFilePath,
@@ -381,7 +440,7 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
                   duration: 2000,
                   icon: "none"
                 })
-                _this.handleCanvasCancel()
+                //_this.handleCanvasCancel()
               },
               fail() {
                 uni.showToast({
@@ -392,21 +451,6 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
                 uni.hideLoading()
               }
             })
-            // #endif
-
-            // #ifdef H5
-            // h5的时候
-            uni.showToast({
-              title: "请长按保存",
-              duration: 3000,
-              icon: "none"
-            })
-						_this.handleCanvasCancel()
-						// 预览图片
-						uni.previewImage({
-							urls: [res.tempFilePath]
-						})
-            // #endif
           },
           fail(res) {
             console.log("fail -> res", res)
@@ -418,51 +462,6 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
             uni.hideLoading()
           }
         },this)
-      // #endif
-      // #ifdef MP-ALIPAY
-      // 支付宝小程序条件下 toTempFilePath
-      this.ctx.toTempFilePath({
-        x: this.poster.x,
-        y: this.poster.y,
-        width: this.poster.w, // 画布的宽
-        height: this.poster.h, // 画布的高
-        destWidth: this.poster.w * 5,
-        destHeight: this.poster.h * 5,
-        success(res) {
-          //保存图片至相册
-            my.saveImage({
-            url: res.apFilePath,
-            showActionSheet: true,
-            success(res) {
-              uni.hideLoading()
-              uni.showToast({
-                title: "图片保存成功，可以去分享啦~",
-                duration: 2000,
-                icon: "none"
-              })
-              _this.handleCanvasCancel()
-            },
-            fail() {
-              uni.showToast({
-                title: "保存失败，稍后再试",
-                duration: 2000,
-                icon: "none"
-              })
-              uni.hideLoading()
-            }
-          })
-        },
-        fail(res) {
-          console.log("fail -> res", res)
-          uni.showToast({
-            title: "保存失败，稍后再试",
-            duration: 2000,
-            icon: "none"
-          })
-          uni.hideLoading()
-        }
-      },this)
-      // #endif
     },
 			/**
 			 * @description: 取消海报
@@ -710,7 +709,7 @@ page{
 }
 .text-button{
 	width: 150rpx;
-	height: 40%;
+	height: 60%;
 	padding: 5px;
 	text-align: center;
 	margin-top: 5px;

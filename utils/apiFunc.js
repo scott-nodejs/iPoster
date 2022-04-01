@@ -219,34 +219,45 @@ export async function upload(path) {
   return new Promise((resolve, reject) => {
     new Promise((resolve, reject) => {
 		let base64;
-      uni.request({
-      	url: path,
-      	method:'GET',
-      	responseType:'arraybuffer',
-      	success(res) {
-      		base64 = wx.arrayBufferToBase64(res.data);
-      		base64 = 'data:image/jpeg;base64,'+base64;
-      		const options = {
-      			filePath: base64,
-      		}
-      		resolve(options)
-      	}
-      })
-    }).then((options) => {
-      // uni.showLoading({
-      //   title: '文件上传中...'
+      // uni.request({
+      // 	url: path,
+      // 	method:'GET',
+      // 	responseType:'arraybuffer',
+      // 	success(res) {
+      // 		base64 = wx.arrayBufferToBase64(res.data);
+      // 		base64 = 'data:image/jpeg;base64,'+base64;
+      // 		const options = {
+      // 			filePath: base64,
+      // 		}
+      // 		resolve(options)
+      // 	}
       // })
+	  uni.getFileSystemManager().readFile({
+	        filePath: path,
+	        encoding: 'base64',
+	        success: r => { 
+	  			base64 = 'data:image/jpeg;base64,'+r.data;
+	            const options = {
+	             filePath: base64,
+	            }
+	            resolve(options)
+	        }
+	  })
+    }).then((options) => {
+      uni.showLoading({
+        title: '文件上传中...'
+      })
       return request({
       				url: '/upload',
       				data: options,
       				method:'post'
       			});
     }).then(res => {
-      // uni.hideLoading()
-      // uni.showToast({
-      //   content: '上传成功',
-      //   showCancel: false
-      // })
+      uni.hideLoading()
+      uni.showToast({
+        content: '上传成功',
+        showCancel: false
+      })
       resolve(res) 
       console.log("upload -> res", res)
     }).catch((err) => {
