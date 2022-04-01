@@ -117,7 +117,7 @@
 			</view>
 		</hch-dialog>
 		<hch-font v-if="fontShow" :is-show="fontShow" :fontData='font' @cancel="fontShow = false" @confirm="handleFontConfirm"/>
-		<dialog-qrcode v-if="showQrcode" @closed="showQrcode = false" @handle="ImageChoose"></dialog-qrcode>
+		<dialog-qrcode v-if="showQrcode" @closed="showQrcode = false" @handle="ImageChoose" @txtHandle="txtHandle"></dialog-qrcode>
 	</view>
 </template>
 
@@ -604,6 +604,31 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 						this.dragList.splice(this.currentIndex,1)
 					}
 					this.dragList.push(item)
+			},
+			txtHandle(font){
+				this.font = font
+				let item = {
+						id:this.dragList.length,
+						type:'text',
+						text:font.text,
+						color: font.color,
+						fontSize: font.fontSize,
+						textDecoration: font.textDecoration,
+						textAlign: font.textAlign,
+						fontWeight: font.fontWeight,
+						width:200,
+						height:50,
+						active:false,
+						top:40,
+						left:40,
+						radius:0,
+						rotate:0,
+					}
+					if(this.currentIndex !==''){
+						this.dragList.splice(this.currentIndex,1)
+					}
+					this.dragList.push(item)
+					this.showQrcode = false;
 			},
 			/**
 			* @description: 字体大小

@@ -1,37 +1,4 @@
 {
-<<<<<<< HEAD
-    "pages": [
-        "pages/index/index",
-        "pages/index/my",
-        "pages/index/update"
-    ],
-    "subPackages": [],
-    "window": {
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "uni-app",
-        "navigationBarBackgroundColor": "#F8F8F8",
-        "backgroundColor": "#F8F8F8"
-    },
-    "tabBar": {
-        "selectedColor": "#f94d2a",
-        "list": [
-            {
-                "pagePath": "pages/index/index",
-                "text": "推荐",
-                "iconPath": "static/tab-icons/hot.png",
-                "selectedIconPath": "static/tab-icons/hot-active.png"
-            },
-            {
-                "pagePath": "pages/index/my",
-                "text": "我的",
-                "iconPath": "static/tab-icons/my.png",
-                "selectedIconPath": "static/tab-icons/my-active.png"
-            }
-        ]
-    },
-    "usingComponents": {},
-    "sitemapLocation": "sitemap.json"
-=======
   "pages": [
     "pages/index/index",
     "pages/index/update",
@@ -61,7 +28,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
->>>>>>> a21060ef376f9e13bac6b720fad6bba2b02121f3
+  "usingComponents": {}
 }

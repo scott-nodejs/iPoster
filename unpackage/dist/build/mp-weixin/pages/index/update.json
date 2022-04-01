@@ -4,6 +4,7 @@
   "usingComponents": {
     "hch-dialog": "/components/hch-dialog/hch-dialog",
     "hch-font": "/components/hch-font/hch-font",
+    "dialog-qrcode": "/components/dialog/qrcode",
     "hch-menu": "/components/hch-menu/hch-menu"
   }
 }

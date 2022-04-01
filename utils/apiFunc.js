@@ -146,18 +146,31 @@ export async function chooseImgUpload() {
         success: res => {
           let path = res.tempFilePaths[0]
 		  let base64;
-		  uni.request({
-		  	url: path,
-		  	method:'GET',
-		  	responseType:'arraybuffer',
-		  	success(res) {
-		  		base64 = wx.arrayBufferToBase64(res.data);
-		  		base64 = 'data:image/jpeg;base64,'+base64;
-				const options = {
-				  filePath: base64,
-				}
-				resolve(options)
-		  	}
+		  // uni.request({
+		  // 	url: path,
+		  // 	method:'GET',
+		  // 	responseType:'arraybuffer',
+		  // 	success(res) {
+		  // 		base64 = wx.arrayBufferToBase64(res.data);
+		  // 		base64 = 'data:image/jpeg;base64,'+base64;
+				// console.log(base64);
+				// const options = {
+				//   filePath: base64,
+				// }
+				// resolve(options)
+		  // 	}
+		  // })
+		  uni.getFileSystemManager().readFile({
+		        filePath: path,
+		        encoding: 'base64',
+		        success: r => { 
+					base64 = 'data:image/jpeg;base64,'+r.data;
+		            console.log(base64);
+		            const options = {
+		             filePath: base64,
+		            }
+		            resolve(options)
+		        }              
 		  })
         },
         fail: () => {

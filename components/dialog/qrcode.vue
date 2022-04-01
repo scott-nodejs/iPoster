@@ -12,7 +12,7 @@
 				</view>
 				<view v-if="selectIndex == 0" class="pd16_15">
 
-				<view class="flex wrap mt24">
+				   <view class="flex wrap mt24">
 						<view class="col3" @click="selectImg(item.image)" v-for="(item,index) in images">
 							<view class="text-center">
 								<image class="miniapp-icon" :src="item.image"></image>
@@ -24,10 +24,18 @@
 					</view>
 				</view>
 				<view v-if="selectIndex == 1" class="pd16_15">
-					<view class="flex">
-						<view style="width: 140rpx;" class="ft14 cl-info2 text-right">有效期：</view>
-						<view style="width: calc(100% - 140rpx);" class="ft14 cl-main lh20">2020.6.1 至 2020.7.12 23:59（周末、法定节假日通用）</view>
-					</view>
+					<view class="flex wrap mt24">
+						<view class="col4" @click="selectText(item.text)" v-for="(item,index) in texts">
+								<view>
+									<view class="miniapp-text text-center ft14 cl-light pt10">
+										{{item.text}}
+									</view>
+								</view>
+								<view class="text-center ft12 cl-info2 mt8">
+									{{item.name}}
+								</view>
+							</view>
+						</view>					
 				</view>
 			</view>
 		</view>
@@ -72,6 +80,13 @@
 					{name: '泡芙',
 					 image: '../../static/image/pf.png'
 					}
+				],
+				texts:[
+					{text: '我是测试',name:'测试1'},
+					{text: '我是测试',name:'测试2'},
+					{text: '我是测试',name:'测试3'},
+					{text: '我是测试',name:'测试4'},
+					{text: '我是测试',name:'测试5'}
 				]
 			}
 		},
@@ -90,6 +105,16 @@
 			},
 			selectImg(img) {
 			  this.$emit("handle", img)
+			},
+			selectText(text1){
+				this.$emit("txtHandle", {
+					text: text1,
+					color: "#555555",
+					fontWeight: "normal",
+					fontSize: "18",
+					textDecoration: "",
+					textAlign: "left"
+				})
 			}
 		}
 	}
@@ -139,6 +164,11 @@
 		width: 90rpx;
 		height: 90rpx;
 		border-radius: 40rpx;
+	}
+	.miniapp-text{
+		height: 100rpx;
+		background-color: #555555;
+		margin: 8px;
 	}
 
 </style>

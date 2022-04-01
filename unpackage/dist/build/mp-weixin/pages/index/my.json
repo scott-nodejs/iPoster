@@ -1,8 +1,5 @@
 {
   "navigationBarTitleText": "我的",
-<<<<<<< HEAD
-=======
   "enablePullDownRefresh": false,
->>>>>>> a21060ef376f9e13bac6b720fad6bba2b02121f3
   "usingComponents": {}
 }
