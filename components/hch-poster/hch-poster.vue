@@ -43,6 +43,7 @@
 
 <script>
   import { drawSquarePic, drawTextReturnH, getSystem } from './utils'
+  import {upload,add} from '../../utils/apiFunc'
   export default {
     data() {
       return {
@@ -124,16 +125,16 @@
 			  y = drawTextReturnH(
 			    ctx,
 			    element.text,
-			    element.top*system.scale + this.poster.x,
-			    element.left*system.scale + this.poster.y,
+			    element.left*system.scale + this.poster.x,
+			    element.top*system.scale + this.poster.y,
 			    element.width,
-			    element.fontSize,
+			    element.fontSize ,
 			    element.color,
-			    0,
+			    10,
 			    element.textAlign
 			  )
 		  }else{
-			  drawSquarePic(ctx, element.top*system.scale + this.poster.x, element.left*system.scale+this.poster.y, element.width*system.scale, element.height*system.scale, element.radius, element.url)
+			  drawSquarePic(ctx, element.left*system.scale + this.poster.x, element.top*system.scale+this.poster.y, element.width*system.scale, element.height*system.scale, element.radius, element.url)
 		  }
           
         })
@@ -157,13 +158,22 @@
           {
             x: this.poster.x,
             y: this.poster.y,
-            width: 200, // 画布的宽
-            height: 300, // 画布的高
-            destWidth: 200 * 5,
-            destHeight: 300 * 5,
+            width: this.poster.w, // 画布的宽
+            height: this.poster.h, // 画布的高
+            destWidth: this.poster.w * 5,
+            destHeight: this.poster.h * 5,
             canvasId: 'myCanvas',
-            success(res) {
+            success: async function(res) {
               //保存图片至相册
+			  // 上传海报
+			  let {fileID} = await upload(res.tempFilePath)
+			  //存储数据
+			  await add({
+			  	createTime: Date.now(),
+			  	dragBg:_this.posterData.dragBg,
+			  	dragList:_this.posterData.tips,
+			  	posterImgUrl:fileID
+			  })
               // #ifndef H5
               // 除了h5以外的其他端
               uni.saveImageToPhotosAlbum({
@@ -302,7 +312,7 @@
 
     .button-wrapper {
       position: fixed;
-      bottom: 160rpx;
+      bottom: 140rpx;
       z-index: 16;
       display: flex;
       width: 100%;
@@ -312,7 +322,7 @@
 
     .save-btn {
       z-index: 16;
-      width: 40%;
+      width: 30%;
       height: 100%;
       font-size: 30rpx;
       line-height: 72rpx;
