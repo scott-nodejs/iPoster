@@ -613,7 +613,10 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 			showSC(){
 				this.fontShow = false;
 				this.showQrcode = true
-			}
+			},
+			handleCancel(val) {
+			  // this.canvasFlag = val
+			},
 		}
 	}
 </script>
@@ -671,7 +674,7 @@ page{
 	background-color: #007AFF;
 	border-radius: 10px;
 	color: #FFFFFF;
-	font-size: 7rpx;		
+	font-size: 20rpx;		
 }
 .head-top{
 	width: 100%;

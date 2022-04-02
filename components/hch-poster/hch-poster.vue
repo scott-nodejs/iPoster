@@ -68,13 +68,14 @@
       poster() {
         let data = this.posterData
         let system = this.system
+		console.log(system)
         let posterBg = {
           url: data.dragBg.url,
-          r: 10 * 0.8,
-          w: data.dragBg.width * 0.8,
-          h: data.dragBg.height * 0.8,
-          x: 30,
-          y: 50,
+          r: 10 * system.scale,
+          w: data.dragBg.width * system.scale,
+          h: data.dragBg.height * system.scale,
+          x: (system.w - data.dragBg.width * system.scale) / 2,
+          y: (system.h - data.dragBg.height * system.scale) / 2,
           p: 20 * system.scale
         }
         return posterBg
@@ -116,13 +117,15 @@
         // 小程序的名称
         // 长按/扫描识别查看商品
         let y = 0
+		let mt = 20;
+		let system = this.system
         this.posterData.tips.forEach((element, i) => {
 		  if(element.type == 'text'){
 			  y = drawTextReturnH(
 			    ctx,
 			    element.text,
-			    element.top+30,
-			    element.left+40,
+			    element.top*system.scale + this.poster.x,
+			    element.left*system.scale + this.poster.y,
 			    element.width,
 			    element.fontSize,
 			    element.color,
@@ -130,7 +133,7 @@
 			    element.textAlign
 			  )
 		  }else{
-			  drawSquarePic(ctx, element.top + 40, element.left+30, element.width, element.height, element.radius, element.url)
+			  drawSquarePic(ctx, element.top*system.scale + this.poster.x, element.left*system.scale+this.poster.y, element.width*system.scale, element.height*system.scale, element.radius, element.url)
 		  }
           
         })
