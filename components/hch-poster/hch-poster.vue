@@ -312,7 +312,7 @@
 
     .button-wrapper {
       position: fixed;
-      bottom: 140rpx;
+      bottom: 120rpx;
       z-index: 16;
       display: flex;
       width: 100%;

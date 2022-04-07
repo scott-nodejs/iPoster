@@ -13,9 +13,9 @@
 				<view v-if="selectIndex == 0" class="pd16_15">
 
 				   <view class="flex wrap mt24">
-						<view class="col3" @click="selectImg(item.image)" v-for="(item,index) in images">
+						<view class="col3" @click="selectImg(item.content)" v-for="(item,index) in images">
 							<view class="text-center">
-								<image class="miniapp-icon" :src="item.image"></image>
+								<image class="miniapp-icon" :src="item.content"></image>
 							</view>
 							<view class="text-center ft12 cl-info2 mt8">
 								{{item.name}}
@@ -25,10 +25,10 @@
 				</view>
 				<view v-if="selectIndex == 1" class="pd16_15">
 					<view class="flex wrap mt24">
-						<view class="col4" @click="selectText(item.text)" v-for="(item,index) in texts">
+						<view class="col4" @click="selectText(item.content)" v-for="(item,index) in texts">
 								<view>
 									<view class="miniapp-text text-center ft14 cl-light pt10">
-										{{item.text}}
+										{{item.content}}
 									</view>
 								</view>
 								<view class="text-center ft12 cl-info2 mt8">
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+	import {getData} from '../../utils/apiFunc'
 	export  default{
 		props:{
 			zindex:{
@@ -61,37 +62,13 @@
 				qrcodeImg:'',
 				selectIndex:0,
 				tabs:['图片库','文本库'],
-				images:[
-					{name: '西红柿',
-					 image: '../../static/image/tomato.png'
-					},
-					{name: '提拉米苏',
-					 image: '../../static/image/tlms.png'
-					},
-					{name: '酸奶',
-					 image: '../../static/image/sn.png'
-					},
-					{name: '三明治',
-					 image: '../../static/image/smz.png'
-					},
-					{name: '罐头',
-					 image: '../../static/image/gt.png'
-					},
-					{name: '泡芙',
-					 image: '../../static/image/pf.png'
-					}
-				],
-				texts:[
-					{text: '我是测试',name:'测试1'},
-					{text: '我是测试',name:'测试2'},
-					{text: '我是测试',name:'测试3'},
-					{text: '我是测试',name:'测试4'},
-					{text: '我是测试',name:'测试5'}
-				]
+				images:[],
+				texts:[]
 			}
 		},
 		created(){
 			this.show = true;
+			this.getdatas();
 		},
 		methods:{
 			closed(){
@@ -115,6 +92,18 @@
 					textDecoration: "",
 					textAlign: "left"
 				})
+			},
+			async getdatas(){
+				const {data} = await getData();
+				console.log(data)
+				for(let i = 0; i < data.length; i++){
+					if(data[i].type == 0){
+						this.images = data[i].data;
+					}
+					if(data[i].type == 1){
+						this.texts = data[i].data;
+					}
+				}
 			}
 		}
 	}

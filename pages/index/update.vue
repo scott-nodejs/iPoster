@@ -521,9 +521,9 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 						radius:0,
 						rotate:0,
 					}
-				if(this.currentIndex !==''){
-					this.dragList.splice(this.currentIndex,1)
-				}
+				// if(this.currentIndex !==''){
+				// 	this.dragList.splice(this.currentIndex,1)
+				// }
 				this.dragList.push(item);
 				this.showQrcode = false;
 			},
@@ -577,9 +577,9 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 						radius:0,
 						rotate:0,
 					}
-					if(this.currentIndex !==''){
-						this.dragList.splice(this.currentIndex,1)
-					}
+					// if(this.currentIndex !==''){
+					// 	this.dragList.splice(this.currentIndex,1)
+					// }
 					this.dragList.push(item)
 					this.showQrcode = false;
 			},

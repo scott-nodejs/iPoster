@@ -15,6 +15,19 @@ export function add(params) {
   })
 }
 
+export function getData() {
+  return new Promise((resolve, reject) => {
+    request({
+      url: '/data',
+    }).then((res) => {
+      resolve(res)
+      console.log(res)
+    }).catch((err) => {
+      console.error(err)
+    })
+  })
+}
+
 export function remove() {
   uni.showLoading({
     title: '处理中...'
