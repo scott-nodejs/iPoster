@@ -117,11 +117,11 @@
 					for (var i = 0; i < data.length; i++) {
 						dataGroup.push({
 							id: data[i].id,
-							src:data[i].dragBg.url,
+							src:data[i].posterImgUrl,
 							sex:Math.round(Math.random()),
-							address:'杭州(100km)',
+							address:data[i].author,
 							name:data[i].name,
-							constellation:'招聘',
+							constellation:data[i].tag,
 							number:10,
 							old:18
 						})

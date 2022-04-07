@@ -3,7 +3,7 @@ import Vue from 'vue';
 // uniapp 已默认安装，不需要重新下载
 import Vuex from 'vuex';
 // 导入 search.js 暴露的对象
-import user from './modules/user';
+import user from 'modules/user.js';
 
 // 2. 安装 Vuex 插件
 Vue.use(Vuex);
