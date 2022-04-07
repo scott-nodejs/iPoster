@@ -2,7 +2,7 @@
   <view class="my-container">
     <!-- 用户未登录 -->
     <block v-if="!token">
-      <image class="avatar avatar-img" src="/static/images/default-avatar.png" mode="scaleToFill" />
+      <image class="avatar avatar-img" src="../../static/default-avatar.png" mode="scaleToFill" />
       <view class="login-desc">登录后可同步数据</view>
       <!-- #ifdef MP-WEIXIN -->
       <button class="login-btn" type="primary" @click="getUserInfo">微信用户一键登录</button>

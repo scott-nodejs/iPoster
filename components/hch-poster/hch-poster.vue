@@ -166,13 +166,14 @@
             success: async function(res) {
               //保存图片至相册
 			  // 上传海报
-			  let {fileID} = await upload(res.tempFilePath)
+			  let fileID = await upload(res.tempFilePath)
+			  console.log(fileID)
 			  //存储数据
 			  await add({
 			  	createTime: Date.now(),
 			  	dragBg:_this.posterData.dragBg,
 			  	dragList:_this.posterData.tips,
-			  	posterImgUrl:fileID
+			  	posterImgUrl:fileID.msg
 			  })
               // #ifndef H5
               // 除了h5以外的其他端

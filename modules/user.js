@@ -1,3 +1,4 @@
+import { login } from 'api/user';
 const STORAGE_KEY = 'user-info';
 const TOKEN_KEY = 'token';
 export default {
@@ -59,6 +60,58 @@ export default {
     }    
   },
   actions: {
-    
+    /**
+     * 完成登录
+     */
+    async login(context, userProfile) {
+      console.log(userProfile);
+      // 用户数据
+      const rawData = userProfile.userInfo;
+      // 调用登录接口
+      const data = await login({
+        signature: userProfile.signature,
+        iv: userProfile.iv,
+		encryptedData: userProfile.encryptedData,
+        nickName: rawData.nickName,
+        gender: rawData.gender,
+        city: rawData.city,
+		code: rawData.code,
+        province: rawData.province,
+        avatarUrl: rawData.avatarUrl
+      });
+      // TODO: 登录逻辑
+      this.commit('user/setToken', data.msg);
+      this.commit('user/setUserInfo', JSON.parse(userProfile.rawData));
+    },
+    /**
+     * 退出登录
+     */
+    logout(context) {
+        this.commit('user/removeToken');
+        this.commit('user/removeUserInfo');
+    },
+    /**
+     * 进行登录判定
+     */
+     async isLogin(context) {
+      if (context.state.token) return true;
+      // 如果用户未登录，则引导用户进入登录页面
+      const [error, res] = await uni.showModal({
+        title: '登录之后才可以进行后续操作',
+        content: '立即跳转到登录页面？（登录后回自动返回当前页面哦~~~）'
+      });
+      const { cancel, confirm } = res;
+      if (confirm) {
+        uni.navigateTo({
+          url: '/subpkg/pages/login-page/login-page'
+        });
+      }
+      return false;
+    },
+	
+	isClientLogin(context){
+		if (context.state.token) return true;
+		return false;
+	}
   }
 };

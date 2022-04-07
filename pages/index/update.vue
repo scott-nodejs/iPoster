@@ -7,12 +7,12 @@
  * @LastEditTime: 2021-08-01 23:32:36
 -->
 <template>
-	<view>
+	<view :style="{background:bgColor}">
 		<view class="head-top">
 			<view class="text-button" @click="handleCanvasCancel">清空重做</view>
 			<view class="text-button" @tap="handleShowPoster">下载保存</view>
 		</view>
-		<view class="content">
+		<view class="content" :style="{background:bgColor}">
 			<img class="bg-img" v-if="dragBg.url" :src="dragBg.url" alt="" srcset="">
 			<view class="drag-wrap" v-for="(item,i) in dragList" :key="item.id">
 				<!-- 拖拽元素 -->
@@ -105,9 +105,13 @@
 					<img class="img" src="/static/hch-poster/template.png" alt="" srcset="">
 					模板选择
 				</view>
-				<view class="choose-item" @click="handleChoose('bg')">
+				<view class="choose-item">
 					<img class="img" src="/static/hch-poster/pic.png" alt="" srcset="">
 					背景图选择
+				</view>
+				<view class="choose-item" @click="colorShow=true" :style="{background:font.color}">
+					<img class="img" src="/static/hch-poster/pic.png" alt="" srcset="">
+					颜色背景图
 				</view>
 			</view>
 		</hch-dialog>
@@ -118,6 +122,7 @@
 		</hch-dialog>
 		<hch-font v-if="fontShow" :is-show="fontShow" :fontData='font' @cancel="fontShow = false" @confirm="handleFontConfirm"/>
 		<dialog-qrcode v-if="showQrcode" @closed="showQrcode = false" @handle="ImageChoose" @txtHandle="txtHandle"></dialog-qrcode>
+		<hch-color :is-show='colorShow' @confirm='handleColorConfirm' @cancel='colorShow=false' />
 		<hch-poster
 		  ref="hchPoster"
 		  @cancel="handleCancel"
@@ -133,13 +138,15 @@ import HchDialog from '../../components/hch-dialog/hch-dialog.vue'
 import HchFont from '../../components/hch-font/hch-font.vue'
 import HchPoster from '../../components/hch-poster/hch-poster.vue'
 import {upload,chooseImgUpload,add,get,one} from '../../utils/apiFunc'
+import HchColor from "../../components/hch-color/hch-color.vue"
 import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 	export default {
 		components: {
 			HchMenu,
 			HchDialog,
 			HchFont,
-			HchPoster
+			HchPoster,
+			HchColor
 		},
 		data() {
 			return {
@@ -152,7 +159,9 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 				showTempDiolag:false,//模板选择弹窗
 				showTextDiolag:false,//文本输入框弹窗
 				index:0,
+				colorShow: false,
 				canvasShow:false,
+				bgColor: "#555555",
 				dragBg:{
 					url:'',
 					width:0,
@@ -179,6 +188,11 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 		onReady(){
 		},
 		methods: {
+			handleColorConfirm(color) {
+			  this.bgColor = color;
+			  this.colorShow = false;
+			  this.showDiolag = false;
+			},
 			handleShowPoster() {
 			  this.$refs.hchPoster.posterShow()
 			},
@@ -638,8 +652,8 @@ page{
 .image-item{width: 40rpx;height: 40rpx;}
 .form-footer-h{
 	height: 10%;
-	height: calc(140rpx + constant(safe-area-inset-bottom));
-	height: calc(140rpx + env(safe-area-inset-bottom));
+	// height: calc(140rpx + constant(safe-area-inset-bottom));
+	// height: calc(140rpx + env(safe-area-inset-bottom));
 }
 .form-footer{
 	width: 100%;
@@ -689,7 +703,7 @@ page{
 		display: block;
 		width: 100%;
 		height: 100%;
-		background: #555555;
+		background-color: #555555;
 		.del-icon{
 			width: 60rpx;
 			height: 60rpx;
