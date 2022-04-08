@@ -1,6 +1,6 @@
 {
-  "component": true,
   "usingComponents": {
     "hch-color": "/components/hch-color/hch-color"
-  }
+  },
+  "component": true
 }

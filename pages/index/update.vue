@@ -101,16 +101,16 @@
 		<!-- <hch-menu @clickMenu="handleMenu"></hch-menu> -->
 		<hch-dialog class="dialog-wrap" :show-modal="showDiolag" modal-title="选择" @cancel="showDiolag=false">
 			<view class="choose-wrap">
-				<view class="choose-item" @click="handleTemDiolag">
+				<!-- <view class="choose-item" @click="handleTemDiolag">
 					<img class="img" src="/static/hch-poster/template.png" alt="" srcset="">
 					模板选择
-				</view>
+				</view> -->
 				<view class="choose-item">
 					<img class="img" src="/static/hch-poster/pic.png" alt="" srcset="">
 					背景图选择
 				</view>
 				<view class="choose-item" @click="colorShow=true" :style="{background:font.color}">
-					<img class="img" src="/static/hch-poster/pic.png" alt="" srcset="">
+					<img class="img" src="/static/hch-poster/template.png" alt="" srcset="">
 					颜色背景图
 				</view>
 			</view>
@@ -192,6 +192,7 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 			  this.bgColor = color;
 			  this.colorShow = false;
 			  this.showDiolag = false;
+			  this.dragBg = [];
 			},
 			handleShowPoster() {
 			  this.$refs.hchPoster.posterShow()
@@ -651,12 +652,13 @@ page{
 .mt8{margin-top: 8rpx;}
 .image-item{width: 40rpx;height: 40rpx;}
 .form-footer-h{
-	height: 10%;
-	// height: calc(140rpx + constant(safe-area-inset-bottom));
-	// height: calc(140rpx + env(safe-area-inset-bottom));
+	height: calc(140rpx + constant(safe-area-inset-bottom));
+	height: calc(140rpx + env(safe-area-inset-bottom));
+	height: 140rpx;
 }
 .form-footer{
 	width: 100%;
+	height: 140rpx;
 	position: fixed;
 	z-index: 10;
 	left: 0;
@@ -693,7 +695,7 @@ page{
 .head-top{
 	width: 100%;
 	height:40px;
-	position:relative;
+	position:absolute;
 	background-color: #333333;
 	z-index: 10;
 	display: flex;
@@ -702,15 +704,17 @@ page{
 	.content {
 		display: block;
 		width: 100%;
-		height: 100%;
+		height: 90%;
+		top: 40px;
 		background-color: #555555;
+		position:absolute;
 		.del-icon{
 			width: 60rpx;
 			height: 60rpx;
 		}
 		.bg-img{
 			width: 100%;
-			height: 85%;
+			height: 90%;
 			position: absolute;
 		}
 		.drag-wrap{

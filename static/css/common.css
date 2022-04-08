@@ -266,11 +266,11 @@ button::after{
 
 
 
-.form-footer-h{
+/* .form-footer-h{
 	height: 140rpx;
 	height: calc(140rpx + constant(safe-area-inset-bottom));
 	height: calc(140rpx + env(safe-area-inset-bottom));
-}
+} */
 .form-footer{
 	width: 100%;
 	position: fixed;
