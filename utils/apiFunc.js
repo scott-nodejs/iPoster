@@ -101,6 +101,28 @@ export function get() {
   })
 }
 
+export function myWorks() {
+  uni.showLoading({
+    title: '加载中...'
+  })
+  return new Promise((resolve, reject) => {
+    request({
+      url: '/myWorks'
+    }).then((res) => {
+      uni.hideLoading()
+      console.log(res)
+      resolve(res)
+    }).catch((err) => {
+      uni.hideLoading()
+      uni.showModal({
+        content: `查询失败`,
+        showCancel: false
+      })
+      console.error(err)
+    })
+  })
+}
+
 export function one(id) {
   uni.showLoading({
     title: '加载中...'
@@ -108,6 +130,28 @@ export function one(id) {
   return new Promise((resolve, reject) => {
     request({
       url: '/one/'+id
+    }).then((res) => {
+      uni.hideLoading()
+      console.log(res)
+      resolve(res)
+    }).catch((err) => {
+      uni.hideLoading()
+      uni.showModal({
+        content: `查询失败`,
+        showCancel: false
+      })
+      console.error(err)
+    })
+  })
+}
+
+export function work(id) {
+  uni.showLoading({
+    title: '加载中...'
+  })
+  return new Promise((resolve, reject) => {
+    request({
+      url: '/work/'+id
     }).then((res) => {
       uni.hideLoading()
       console.log(res)

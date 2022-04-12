@@ -53,5 +53,20 @@
 			"dialog-(.*)":"@/components/dialog/$1.vue",
 			"sub-(.*)":"@/components/sub/$1.vue"
 	  }
-	}
+	},
+	"subPackages": [
+	  {
+	    "root": "subpkg",
+	    "name": "sub-1",
+	    "pages": [
+	      {
+	        "path": "pages/login/my",
+	        "style": {
+	          "navigationBarTitleText": "",
+	          "enablePullDownRefresh": false
+	        }
+	      }
+	    ]
+	  }
+	]
 }

@@ -86,7 +86,7 @@
 			selectText(text1){
 				this.$emit("txtHandle", {
 					text: text1,
-					color: "#555555",
+					color: "#fff",
 					fontWeight: "normal",
 					fontSize: "18",
 					textDecoration: "",

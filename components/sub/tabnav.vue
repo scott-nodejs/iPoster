@@ -3,7 +3,7 @@
 		<view class="tab-nav-plus-main"  :class="isFixed ? 'fixed' : ''">
 			<scroll-view :scroll-left="getLeft"   :scroll-with-animation="true" :scroll-x="true" class="tab-nav-plus-scroll">
 				<view v-for="(item,index) in tabs" :key="index"  :data-index="index" @click="tabClick" class="item">
-					<view class="tit" :class="selectIndex == index ? 'on' : ''" :style="{color: selectIndex == index ? tempColor: '#FFFFFF'}">{{item.name}}</view>
+					<view class="tit" :class="selectIndex == index ? 'on' : ''" :style="{color: selectIndex == index ? tempColor: '#353535'}">{{item.name}}</view>
 					<view class="bd" :style="{background:selectIndex == index ? tempColor: 'transparent'}"></view>
 				</view>
 			</scroll-view>

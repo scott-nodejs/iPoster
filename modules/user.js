@@ -101,9 +101,9 @@ export default {
         content: '立即跳转到登录页面？（登录后回自动返回当前页面哦~~~）'
       });
       const { cancel, confirm } = res;
-      if (confirm) {
+      if (confirm) { 
         uni.navigateTo({
-          url: '/subpkg/pages/login-page/login-page'
+          url: '/subpkg/pages/login/my'
         });
       }
       return false;

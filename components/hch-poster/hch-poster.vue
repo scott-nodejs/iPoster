@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import { drawSquarePic, drawTextReturnH, getSystem } from './utils'
+  import { drawSquarePic, drawTextReturnH, getSystem,roundRect } from './utils'
   import {upload,add} from '../../utils/apiFunc'
   export default {
     data() {
@@ -70,15 +70,29 @@
         let data = this.posterData
         let system = this.system
 		console.log(system)
-        let posterBg = {
-          url: data.dragBg.url,
-          r: 10 * system.scale,
-          w: data.dragBg.width * system.scale,
-          h: data.dragBg.height * system.scale,
-          x: (system.w - data.dragBg.width * system.scale) / 2,
-          y: (system.h - data.dragBg.height * system.scale) / 2,
-          p: 20 * system.scale
-        }
+		let posterBg;
+		if(data.dragBg.url != ''){
+			posterBg = {
+			  url: data.dragBg.url,
+			  r: 10 * system.scale,
+			  w: data.dragBg.width * system.scale,
+			  h: data.dragBg.height * system.scale,
+			  x: (system.w - data.dragBg.width * system.scale) / 2,
+			  y: (system.h - data.dragBg.height * system.scale) / 2,
+			  p: 20 * system.scale
+			}
+		}else{
+			posterBg = {
+			  url: '',
+			  r: 10 * system.scale,
+			  w: system.w * system.scale,
+			  h: system.h * system.scale,
+			  x: system.w * 0.2 / 2,
+			  y: system.h * 0.1 / 2,
+			  p: 20 * system.scale
+			}
+		}
+        
         return posterBg
       }
     },
@@ -114,7 +128,14 @@
         // let mainImg = this.mainImg
         // let codeImg = this.codeImg
         // let title = this.title
-        await drawSquarePic(ctx, poster.x, poster.y, poster.w, poster.h, poster.r, poster.url)
+		if(poster.url != ''){
+			console.log("aaa")
+			await drawSquarePic(ctx, poster.x, poster.y, poster.w, poster.h, poster.r, poster.url)
+		}else{
+			console.log(poster.h)
+			await roundRect(ctx, poster.x, poster.y, poster.w, poster.h, poster.r, this.posterData.bgColor)
+		}
+        
         // 小程序的名称
         // 长按/扫描识别查看商品
         let y = 0
@@ -173,6 +194,7 @@
 			  	createTime: Date.now(),
 			  	dragBg:_this.posterData.dragBg,
 			  	dragList:_this.posterData.tips,
+				bgColor: _this.posterData.bgColor,
 			  	posterImgUrl:fileID.msg
 			  })
               // #ifndef H5

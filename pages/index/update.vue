@@ -1,11 +1,3 @@
-<!--
- * @Description: 
- * @Version: 1.0.0
- * @Autor: hch
- * @Date: 2020-08-11 10:57:41
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-01 23:32:36
--->
 <template>
 	<view :style="{background:bgColor}">
 		<view class="head-top">
@@ -137,8 +129,9 @@ import HchMenu from '../../components/hch-menu/hch-menu.vue'
 import HchDialog from '../../components/hch-dialog/hch-dialog.vue'
 import HchFont from '../../components/hch-font/hch-font.vue'
 import HchPoster from '../../components/hch-poster/hch-poster.vue'
-import {upload,chooseImgUpload,add,get,one} from '../../utils/apiFunc'
+import {upload,chooseImgUpload,add,get,one,work} from '../../utils/apiFunc'
 import HchColor from "../../components/hch-color/hch-color.vue"
+import {mapState,mapActions} from "vuex";
 import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 	export default {
 		components: {
@@ -173,6 +166,7 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 				dragList:[],
 				showQrcode:false,
                 posterData: {
+				  bgColor: '#555555',
                   dragBg: {},
                   tips: []
                 }
@@ -183,19 +177,43 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 		onLoad(options){
 			this.system = getSystem()
 			let index = options.index;
-			this.getOne(index)
+			if(options.type == 'my'){
+				this.getWork(index)
+			}else{
+				this.getOne(index)
+			}
 		},
 		onReady(){
 		},
 		methods: {
+			...mapActions('user', ['isLogin']),
 			handleColorConfirm(color) {
 			  this.bgColor = color;
 			  this.colorShow = false;
 			  this.showDiolag = false;
-			  this.dragBg = [];
+			  this.dragBg = {
+					url:'',
+					width:0,
+					height:0,
+					top:0,
+					left:0,
+					radius:0,
+				};
+			  this.posterData.bgColor=color;	
+			  this.posterData.dragBg = {
+					url:'',
+					width:0,
+					height:0,
+					top:0,
+					left:0,
+					radius:0,
+				}
 			},
-			handleShowPoster() {
-			  this.$refs.hchPoster.posterShow()
+			async handleShowPoster() {
+				if (!(await this.isLogin())) {
+				  return;
+				}
+				this.$refs.hchPoster.posterShow()
 			},
 			/**
 			* @description: 拖拽对象开始接触移动前
@@ -457,8 +475,18 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 			async getOne(index){
 				let {data} = await one(index)
 				
-				this.dragList = data.dragList
-				this.dragBg = data.dragBg
+				this.dragList = data.dragList;
+				this.dragBg = data.dragBg;
+				this.bgColor = data.bgColor;
+				this.posterData.dragBg = data.dragBg;
+				this.posterData.tips = data.dragList;
+			},
+			async getWork(index){
+				let {data} = await work(index)
+				
+				this.dragList = data.dragList;
+				this.dragBg = data.dragBg;
+				this.bgColor = data.bgColor;
 				this.posterData.dragBg = data.dragBg;
 				this.posterData.tips = data.dragList;
 			},
@@ -536,9 +564,9 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 						radius:0,
 						rotate:0,
 					}
-				// if(this.currentIndex !==''){
-				// 	this.dragList.splice(this.currentIndex,1)
-				// }
+				if(this.currentIndex !==''){
+					this.dragList.splice(this.currentIndex,1)
+				}
 				this.dragList.push(item);
 				this.showQrcode = false;
 			},
@@ -592,9 +620,9 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 						radius:0,
 						rotate:0,
 					}
-					// if(this.currentIndex !==''){
-					// 	this.dragList.splice(this.currentIndex,1)
-					// }
+					if(this.currentIndex !==''){
+						this.dragList.splice(this.currentIndex,1)
+					}
 					this.dragList.push(item)
 					this.showQrcode = false;
 			},

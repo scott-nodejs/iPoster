@@ -41,7 +41,7 @@
 					if(this.selectIndex == a){
 						style+= 'color:'+ (this.isMain ?  this.tempColor : '#5E40FF')+';';
 					}else{
-						style+='color:#FFFFFF;';	
+						style+='color:#555555;';	
 					}
 					arr.push(style);
 				}
