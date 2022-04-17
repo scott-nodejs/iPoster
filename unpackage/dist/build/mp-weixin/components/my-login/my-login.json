@@ -1,6 +1,4 @@
 {
-  "usingComponents": {
-    "sub-tab": "/components/sub/tab"
-  },
+  "usingComponents": {},
   "component": true
 }

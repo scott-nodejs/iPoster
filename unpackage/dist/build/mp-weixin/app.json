@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/index/update",
-    "pages/index/my"
+    "pages/index/my",
+    "pages/index/works"
   ],
   "subPackages": [
     {
@@ -36,5 +37,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }

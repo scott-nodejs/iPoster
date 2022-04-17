@@ -22,7 +22,16 @@
                 "enablePullDownRefresh": false
             }
             
-        }
+        },
+		{
+		    "path" : "pages/index/works",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "作品",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
