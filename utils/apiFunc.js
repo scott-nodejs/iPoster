@@ -123,13 +123,14 @@ export function myWorks() {
   })
 }
 
-export function one(id) {
+export function one(id, sys) {
   uni.showLoading({
     title: '加载中...'
   })
   return new Promise((resolve, reject) => {
     request({
-      url: '/one/'+id
+      url: '/one/'+id,
+	  data: sys
     }).then((res) => {
       uni.hideLoading()
       console.log(res)

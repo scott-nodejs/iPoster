@@ -30,7 +30,9 @@
 						fontSize: item.fontSize +'px',
 						textDecoration: item.textDecoration,
 						textAlign: item.textAlign,
-						fontWeight: item.fontWeight
+						fontWeight: item.fontWeight,
+						lineHeight: item.lineSpacing,
+						fontFamily: item.textFontName
 				 }" 
 				 >{{item.text}}</text>
 				</view>
@@ -144,6 +146,7 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 		data() {
 			return {
 				font:{},
+				system: {},
 				fontSize:10,
 				fontShow:false,
 				textValue:"",//输入文本
@@ -173,6 +176,9 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 			}
 		},
 		computed: {
+		},
+		created() {
+			this.system = getSystem()
 		},
 		onLoad(options){
 			this.system = getSystem()
@@ -473,7 +479,7 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 				this.showTempDiolag = true
 			},
 			async getOne(index){
-				let {data} = await one(index)
+				let {data} = await one(index, this.system)
 				
 				this.dragList = data.dragList;
 				this.dragBg = data.dragBg;
@@ -741,8 +747,9 @@ page{
 			height: 60rpx;
 		}
 		.bg-img{
+		
 			width: 100%;
-			height: 90%;
+			height: 95%;
 			position: absolute;
 		}
 		.drag-wrap{
