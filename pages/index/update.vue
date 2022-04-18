@@ -546,7 +546,8 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 					}
 				switch (type) {
 					case 'pic':
-						this.dragList.push(item)
+						this.dragList.push(item);
+						this.posterData.tips.push(item);
 						break;
 					case 'bg':
 						this.dragBg.url = res.msg
@@ -574,6 +575,7 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 					this.dragList.splice(this.currentIndex,1)
 				}
 				this.dragList.push(item);
+				this.posterData.tips.push(item);
 				this.showQrcode = false;
 			},
 			/**
@@ -605,7 +607,8 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 					if(this.currentIndex !==''){
 						this.dragList.splice(this.currentIndex,1)
 					}
-					this.dragList.push(item)
+					this.dragList.push(item);
+					this.posterData.tips.push(item);
 			},
 			txtHandle(font){
 				this.font = font
@@ -629,7 +632,8 @@ import {chooseImage,drawSquarePic,drawTextReturnH,getSystem} from '../../utils'
 					if(this.currentIndex !==''){
 						this.dragList.splice(this.currentIndex,1)
 					}
-					this.dragList.push(item)
+					this.dragList.push(item);
+					this.posterData.tips.push(item);
 					this.showQrcode = false;
 			},
 			/**
