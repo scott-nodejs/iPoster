@@ -2,7 +2,7 @@
 	<view class="page" :style="{height:`${sysHeight}px`,width:`${sysWidth}px`}">
 		
 		<!-- #ifndef APP-PLUS -->
-		<movable-area class="move-area" :style="{height:`${3*sysHeight}px`,width:`${3*sysWidth}px`,top:`${-sysHeight}px`,left:`${-sysWidth}px` }">
+		<movable-area class="move-area" :style="{height:`${3*sysHeight}px`,width:`${3*sysWidth}px`,top:`${-sysHeight-50}px`,left:`${-sysWidth}px` }">
 				<movable-view
 					id="move"
 					class="move-view"
@@ -242,7 +242,7 @@
 	.cardBox{
 		position:relative;
 		width: 600rpx;
-		height: 1000rpx;
+		height: 1200rpx;
 	}
 	.love{
 		position: absolute;

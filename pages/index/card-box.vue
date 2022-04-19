@@ -29,7 +29,7 @@
 					<view class="iconfont sex" :class="sex==0?'icon-male':'icon-xingbie-nv'" :style="{fontSize:'16px' }"></view> {{old}}</view>
 				<view class="label" :style="{backgroundColor:'#A4C742'}">{{constellation}}</view>
 			</view>
-			<view class="address">{{address}}</view>
+			<!-- <view class="address">{{address}}</view> -->
 		</view>
 	</view>
 </template>
@@ -241,7 +241,7 @@
 			}
 			.img{
 				width: 600rpx;
-				height: 800rpx;
+				height: 1066rpx;
 			}
 			.love{
 				position: absolute;
@@ -277,7 +277,7 @@
 		.bottom{
 			position: relative;
 			display: flex;
-			padding: 110rpx 20rpx;
+			padding: 370rpx 20rpx;
 			flex-direction: column;
 			color:#202020;
 			.labelBox{

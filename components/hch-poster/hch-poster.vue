@@ -143,17 +143,35 @@
 		let system = this.system
         this.posterData.tips.forEach((element, i) => {
 		  if(element.type == 'text'){
-			  y = drawTextReturnH(
-			    ctx,
-			    element.text,
-			    element.left*system.scale + this.poster.x,
-			    element.top*system.scale + this.poster.y,
-			    element.width,
-			    element.fontSize ,
-			    element.color,
-			    10,
-			    element.textAlign
-			  )
+			  let txt = element.text;
+			  if(txt.indexOf('\n') !== -1){
+				  let arr = txt.split('\n');
+				  for(let i = 0; i < arr.length; i++){
+					  y = drawTextReturnH(
+					    ctx,
+					    arr[i],
+					    element.left*system.scale + this.poster.x,
+					    element.top*system.scale + this.poster.y + i*15,
+					    element.width,
+					    element.fontSize ,
+					    element.color,
+					    10,
+					    element.textAlign
+					  )
+				  }
+			  }else{
+			      y = drawTextReturnH(
+			        ctx,
+			        element.text,
+			        element.left*system.scale + this.poster.x,
+			        element.top*system.scale + this.poster.y,
+			        element.width,
+			        element.fontSize ,
+			        element.color,
+			        10,
+			        element.textAlign
+			      )
+			  }
 		  }else{
 			  drawSquarePic(ctx, element.left*system.scale + this.poster.x, element.top*system.scale+this.poster.y, element.width*system.scale, element.height*system.scale, element.radius, element.url)
 		  }
