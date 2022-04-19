@@ -129,7 +129,6 @@
         // let codeImg = this.codeImg
         // let title = this.title
 		if(poster.url != ''){
-			console.log("aaa")
 			await drawSquarePic(ctx, poster.x, poster.y, poster.w, poster.h, poster.r, poster.url)
 		}else{
 			console.log(poster.h)
@@ -141,7 +140,8 @@
         let y = 0
 		let mt = 20;
 		let system = this.system
-        this.posterData.tips.forEach((element, i) => {
+        for(let i = 0; i < this.posterData.tips.length; i++) {
+			let element = this.posterData.tips[i];
 		  if(element.type == 'text'){
 			  let txt = element.text;
 			  if(txt.indexOf('\n') !== -1){
@@ -173,10 +173,11 @@
 			      )
 			  }
 		  }else{
-			  drawSquarePic(ctx, element.left*system.scale + this.poster.x, element.top*system.scale+this.poster.y, element.width*system.scale, element.height*system.scale, element.radius, element.url)
+			  console.log(element.top);
+			  await drawSquarePic(ctx, element.left*system.scale + this.poster.x, element.top*system.scale+this.poster.y, element.width*system.scale, element.height*system.scale, element.radius, element.url)
 		  }
           
-        })
+        }
         uni.hideLoading()
       },
       /**

@@ -41,9 +41,11 @@ export function drawSquarePic(ctx, x, y, w, h, r, url) {
   // 绘制图片
   return new Promise((resolve, reject) => {
     if (url) {
+		console.log("11")
       wx.getImageInfo({
         src: url,
         success(res) {
+			console.log(res.path)
           ctx.drawImage(res.path, x, y, w, h)
           ctx.restore() //恢复之前被切割的canvas，否则切割之外的就没办法用
           ctx.draw(true)
@@ -59,6 +61,7 @@ export function drawSquarePic(ctx, x, y, w, h, r, url) {
         }
       })
     } else {
+		
       ctx.draw(true)
       resolve()
     }
