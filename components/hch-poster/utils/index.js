@@ -33,8 +33,8 @@ export function drawSquarePic(ctx, x, y, w, h, r, url) {
   // 绘制border-left
   ctx.lineTo(x, y + r)
   // 填充颜色(需要可以自行修改)
-  ctx.setFillStyle('#ffffff')
-  ctx.fill()
+  // ctx.setFillStyle('#ffffff')
+  // ctx.fill()
   // 剪切，剪切之后的绘画绘制剪切区域内进行，需要save与restore 这个很重要 不然没办法保存
   ctx.clip()
 
@@ -90,8 +90,9 @@ export function roundRect(ctx,x, y, w, h, r, c) {
  */
 export function getSystem() {
   let system = wx.getSystemInfoSync()
-  let scale = system.windowWidth / 470 //按照苹果留 375*667比例 其他型号手机等比例缩放 显示
-  return { w: system.windowWidth, h: system.windowHeight, scale: scale }
+  let scale = system.windowWidth / 425 //按照苹果留 375*667比例 其他型号手机等比例缩放 显示
+  let hscale = system.windowHeight / 756
+  return { w: system.windowWidth, h: system.windowHeight, scale: scale, hscale: hscale }
 }
 
 /**
@@ -117,23 +118,23 @@ export function drawTextReturnH(
   lineHeight = 30,
   textAlign = 'left'
 ) {
-  if (textAlign) {
-    ctx.setTextAlign(textAlign) //设置文本的水平对齐方式  ctx.setTextAlign这个可以兼容百度小程序 ，注意：ctx.textAlign百度小程序有问题
-    switch (textAlign) {
-      case 'center':
-        x = getSystem().w / 2
-        break
+  // if (textAlign) {
+  //   ctx.setTextAlign(textAlign) //设置文本的水平对齐方式  ctx.setTextAlign这个可以兼容百度小程序 ，注意：ctx.textAlign百度小程序有问题
+  //   switch (textAlign) {
+  //     case 'center':
+  //       x = getSystem().w / 2
+  //       break
 
-      case 'right':
-        x = (getSystem().w - maxWidth) / 2 + maxWidth
-        break
+  //     case 'right':
+  //       x = (getSystem().w - maxWidth) / 2 + maxWidth
+  //       break
 
-      default:
-        // 左对齐
-        x = (getSystem().w - maxWidth) / 2
-        break
-    }
-  }
+  //     default:
+  //       // 左对齐
+  //       x = (getSystem().w - maxWidth) / 2
+  //       break
+  //   }
+  // }
   let arrText = text.split('')
   let line = ''
   for (let n = 0; n < arrText.length; n++) {

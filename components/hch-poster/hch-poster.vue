@@ -69,16 +69,15 @@
       poster() {
         let data = this.posterData
         let system = this.system
-		console.log(system)
 		let posterBg;
 		if(data.dragBg.url != ''){
 			posterBg = {
 			  url: data.dragBg.url,
 			  r: 10 * system.scale,
 			  w: data.dragBg.width * system.scale,
-			  h: data.dragBg.height * system.scale,
+			  h: data.dragBg.height * system.hscale,
 			  x: (system.w - data.dragBg.width * system.scale) / 2,
-			  y: (system.h - data.dragBg.height * system.scale) / 2,
+			  y: (system.h - data.dragBg.height * system.hscale) / 2,
 			  p: 20 * system.scale
 			}
 		}else{
@@ -86,7 +85,7 @@
 			  url: '',
 			  r: 10 * system.scale,
 			  w: system.w * system.scale,
-			  h: system.h * system.scale,
+			  h: system.h * system.hscale,
 			  x: system.w * 0.2 / 2,
 			  y: system.h * 0.1 / 2,
 			  p: 20 * system.scale
@@ -131,7 +130,6 @@
 		if(poster.url != ''){
 			await drawSquarePic(ctx, poster.x, poster.y, poster.w, poster.h, poster.r, poster.url)
 		}else{
-			console.log(poster.h)
 			await roundRect(ctx, poster.x, poster.y, poster.w, poster.h, poster.r, this.posterData.bgColor)
 		}
         
@@ -145,36 +143,45 @@
 		  if(element.type == 'text'){
 			  let txt = element.text;
 			  if(txt.indexOf('\n') !== -1){
+				  console.log(element.text)
+				  console.log(this.poster.x)
+				  console.log(element.left)
+				  console.log(element.left*system.scale + this.poster.x)
+				  console.log(element.fontSize)
 				  let arr = txt.split('\n');
 				  for(let i = 0; i < arr.length; i++){
 					  y = drawTextReturnH(
 					    ctx,
 					    arr[i],
 					    element.left*system.scale + this.poster.x,
-					    element.top*system.scale + this.poster.y + i*15,
+					    element.top*system.hscale + this.poster.y + i*15,
 					    element.width,
-					    element.fontSize ,
+					    element.fontSize,
 					    element.color,
 					    10,
 					    element.textAlign
 					  )
 				  }
 			  }else{
+				  console.log(element.text)
+				  console.log(this.poster.x)
+				  console.log(element.left)
+				  console.log(element.left*system.scale + this.poster.x)
+				  console.log(element.fontSize)
 			      y = drawTextReturnH(
 			        ctx,
 			        element.text,
 			        element.left*system.scale + this.poster.x,
-			        element.top*system.scale + this.poster.y,
+			        element.top*system.hscale + this.poster.y,
 			        element.width,
-			        element.fontSize ,
+			        element.fontSize,
 			        element.color,
 			        10,
-			        element.textAlign
+			        0
 			      )
 			  }
 		  }else{
-			  console.log(element.top);
-			  await drawSquarePic(ctx, element.left*system.scale + this.poster.x, element.top*system.scale+this.poster.y, element.width*system.scale, element.height*system.scale, element.radius, element.url)
+			  await drawSquarePic(ctx, element.left*system.scale + this.poster.x, element.top*system.hscale+this.poster.y, element.width*system.scale, element.height*system.hscale, element.radius, element.url)
 		  }
           
         }
